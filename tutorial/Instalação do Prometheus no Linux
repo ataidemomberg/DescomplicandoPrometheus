@@ -1,0 +1,67 @@
+A instalação d Prometheus e bem simples:
+Primeiro vamos baixar os arquivos necessarios no site do Desenvolvedor "https://prometheus.io/download/ ".
+
+Podemso baixar direto no servidor linux com o comando "Curl"
+
+```bash
+curl -LO https://prometheus.io/download/
+````
+
+Apos o Download dos arquivo vamos descompactar com o sequinte comando:
+
+```bash
+tar -xvf prometheus-VERSAO.linux-amd64.tar.gz
+```
+Agora que ja temos os arquivos necessarios vamos criar a estrutura necessaria para deixarmos bem organizado, para isso vamso criar os diretoriso conforme abaixo:
+
+```bash
+# mkdir -p /etc/prometheus
+# mkdir -p /var/log/prometheus
+# mkdir -p /var/lib/prometheus/
+```
+
+Vamos copiar os arquivos para seus  lugar correspondente:
+Vamos considerar que esta dentro do Diretorio que descompactou OK "prometheus-VERSAO.linux-amd64".
+
+```bash
+# mv prometheus /usr/local/bin/prometheus
+# mv promtool /usr/local/bin/promtool
+# mv prometheus.yml /etc/prometheus/prometheus.yml
+# mv console /etc/prometheus/
+# mv consoles /etc/prometheus/
+# mv console_libraries /etc/prometheus/
+```
+
+Agora vamos dar as permissões necessaria para a execução :
+
+```bash
+# chown -R prometheus:prometheus /etc/prometheus/
+# chown -R prometheus:prometheus /var/log/prometheus/
+# chown -R prometheus:prometheus /var/lib/prometheus/
+# chown -R prometheus:prometheus /usr/local/bin/prometheus
+# chown -R prometheus:prometheus /usr/local/bin/promtool
+```
+Antes de Inciciar vamso criar o arquivo referenet ao serviço do Prometheus, utilize o arquivo que esta nesse mesmo Repositorio na pasta "conf" .
+O aquivo a ser criado será o "prometheus.service"
+
+Priemiro crie o arquivo no diretorio conforme abaixo:
+
+```bash
+vim /etc/systemd/system/prometheus.service
+```
+
+Copie e cole o conteudo do arquivo "prometheus.service" que esta localizado na pasta "conf" do repositorio.
+
+Iremos precisar tambem do arquivo "prometheus.yml" se encontar no mesmo diretorio que o serviço.
+```bash
+vim /etc/prometheus/prometheus.yml
+```
+
+Pronto agora basta iniciar o serviço e continuar os estudos.
+
+Ate mais :D
+
+
+
+
+

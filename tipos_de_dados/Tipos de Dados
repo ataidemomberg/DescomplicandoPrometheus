@@ -1,0 +1,31 @@
+O Prometheus utiliza os sequintes tipode de dados:
+- Gauge:
+É um tipo de dado bastante utilizado  medidor flexível que pode representar valores numéricos 
+que podem subir e descer ao longo do tempo. 
+É como um termômetro que pode mostrar a temperatura de um ambiente, por exemplo.
+
+- Counter:
+é um tipo de dado que conta ocorrências ao longo do tempo. 
+É como um contador que aumenta cada vez que algo acontece. 
+Por exemplo, pode ser usado para contar o número de requisições HTTP recebidas 
+por um servidor web. Cada vez que uma nova requisição é feita, o contador aumenta em um. 
+O valor do contador pode crescer indefinidamente e nunca diminui, a menos que seja 
+reiniciado manualmente.
+
+-  Histograma:
+É um tipo de dado que agrupa e conta observações em intervalos predefinidos. 
+Ele é útil para analisar a distribuição de valores de uma métrica ao longo do tempo. 
+Em vez de apenas contar o número de ocorrências como um contador simples, um histograma 
+divide essas ocorrências em "baldes" ou intervalos e conta quantas ocorrências caem 
+dentro de cada intervalo. 
+Isso permite uma análise mais granular da distribuição dos valores, ajudando a entender 
+melhor a variabilidade dos dados.
+
+- Summary:
+É um tipo de dado que calcula percentis a partir de uma amostra de observações. 
+Ele fornece uma visão estatística resumida da distribuição dos valores de uma métrica 
+ao longo do tempo. permitindo que os administradores monitorem e otimizem o desempenho de suas aplicações.
+Ele nos ajuda a entender como os valores de uma métrica estão espalhados ao longo do tempo.
+Por exemplo, se estamos medindo o tempo de resposta de um site, o Summary nos diz coisas como: quanto tempo 
+demora para metade dos usuários acessarem o site (a mediana), ou quanto tempo demora para os 90% mais rápidos 
+acessarem o site (o percentil 90).
