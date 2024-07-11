@@ -1,0 +1,12 @@
+groups:
+  - name: Meus primeiros Alertas
+    rules:
+    - alert: LoadAverage
+      expr: node_load1 > 0.01
+      for: 1m
+      annotations:
+        descriptions: "A {{ $labels.instance }} esta com Load Average alto"
+        summary: "{{ $labels.instance }} esta com Load Avg Alto"
+        value: "{{ $value }}"
+      labels:
+        severity: "critical" 
