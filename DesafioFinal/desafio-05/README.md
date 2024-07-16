@@ -10,6 +10,10 @@ Investigue a aplicação Giropops-Senhas em execução no cluster para descobrir
 
 Atualize a configuração do Prometheus no Kube-Prometheus para incluir o coletor de métricas (scrape) da aplicação Giropops-Senhas. Certifique-se de que o Prometheus esteja coletando métricas do aplicativo corretamente.
 
+cp app-servicemonitor.yaml giropops-servicemonitor
+kubectl apply -f giropops-servicemonitor
+
+kubectl port-forward svc/giropops-senhas  --address 0.0.0.0 5000:5000
 
 Verifique se o monitoramento está funcionando corretamente e se as métricas estão sendo coletadas e exibidas no Grafana.
 O nome do ServiceMonitor deverá ser: giropops-servicemonitor
