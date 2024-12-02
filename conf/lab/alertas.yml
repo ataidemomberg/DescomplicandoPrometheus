@@ -1,0 +1,32 @@
+groups:
+  - name: Meus primeiros Alertas
+    rules:
+    - alert: InstanciaDown
+      expr: up == 0
+      for: 1m
+      annotations:
+        title: "A Maquina {{ $labels.instance }} está fora!"
+        description: "Verificar Urgente {{ $labels.instance }} esta fora."
+        summary: "{{ $labels.instance }} esta DesOnline"
+        value: "{{ $value  }}"
+      labels:
+        severity: "critical" 
+    - alert: LoadAverage
+      expr: node_load1 > 2.0
+      for: 1m
+      annotations:
+        descriptions: "A {{ $labels.instance }} esta com Load Average alto"
+        summary: "{{ $labels.instance }} esta com Load Avg Alto"
+        value: "{{ $value }}"
+      labels:
+        severity: "critical" 
+    - alert: DiskUsage
+      expr:  (node_filesystem_size_bytes - node_filesystem_free_bytes) * 100 / node_filesystem_size_bytes > 80
+      for: 1m
+      annotations:
+        title: "A Maquina {{ $labels.instance }} está com {{ $labels.mountpoint }} acima de 50% ocupado}"
+        description: "Verificar Urgente {{ $labels.instance }}:{{ $labels.mountpoint }} esta acima de 50%"
+        summary: "{{ $labels.instance }} esta com pouco espaço em {{ $labels.mountpoint }}"
+        value: "{{ humanize $value }}"
+      labels:
+        severity: "critical" 

@@ -1,0 +1,70 @@
+global:
+  resolve_timeout: 5m
+  slack_api_url: 'https://hooks.slack.com/services/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'
+
+time_intervals:
+  - name: workdays
+    time_intervals:
+    - weekdays: ['monday:friday']
+  - name: workhours
+    time_intervals:
+      - times:
+        - start_time: 08:00
+          end_time: 23:00
+
+route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 1m
+  repeat_interval: 1h
+  receiver: 'slack'
+
+  routes:
+  - receiver: 'slack'
+    group_wait: 10s
+    matchers:
+      - alertname = InstanciaDown
+    group_by: ['alertname', 'instance']
+    active_time_intervals:
+      - workdays
+      - workhours
+  - receiver: 'gmail-alert'
+    matchers:
+      - alertname = DiskUsage
+    group_by: ['alertname', 'instance']
+
+receivers:
+- name: 'slack'
+  slack_configs:
+  - channel: '#alertas'
+    send_resolved: true
+    icon_url: https://th.bing.com/th/id/OIP.KTqzZwVUI2XWaTx1lpDJZQHaHa?rs=1&pid=ImgDetMain
+    title: |- 
+     [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }} na instancia {{ .CommonLabels.instance }}
+    text: >-
+     {{ range .Alerts -}}
+     *Alert:* {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+
+     *Description:* {{ .Annotations.description }}
+
+     *Details:*
+       {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+       {{ end }}
+     {{ end }}
+
+- name: 'gmail-alert'
+  email_configs:
+  - to: ataide.momberg@gmail.com
+    from: ataide.momberg@gmail.com
+    smarthost: smtp.gmail.com:587
+    auth_username: ataide.momberg@gmail.com
+    auth_identity: ataide.momberg@gmail.com
+    auth_password: vxsf ilga aguj bhpm
+    send_resolved: true
+
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'instance']
